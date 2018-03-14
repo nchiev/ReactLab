@@ -1,9 +1,10 @@
 import React from "react";
 
 const Option = (props) => (
-  <div>
-    <li>{props.optionText}</li>
+  <div className="option">
+    <p className="option__text">{props.index + 1}. {props.optionText}</p>
     <button 
+      className="button button--link"
       onClick={
         (e) => 
           {
