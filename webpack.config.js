@@ -8,10 +8,18 @@ module.exports = {
         filename: "bundle.js"
     },
     module: {
+        //For JS files
         rules: [{
             loader: "babel-loader",
             test: /\.(js|jsx)$/, //Get only js files
             exclude: /node_modules/  //Don't use babel on node js
+        }, {
+            test: /\.s?css$/,
+            use: [
+                "style-loader",
+                "css-loader",
+                "sass-loader"
+            ]
         }]
     },
     devtool: "cheap-module-eval-source-map",

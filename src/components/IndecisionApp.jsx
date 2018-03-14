@@ -1,28 +1,33 @@
-import React from "react";
+import React from 'react';
 
-import AddOption from "./AddOption.jsx";
-import Header from "./Header.jsx";
-import Action from "./Action.jsx";
-import Options from "./Options.jsx";
-import User from "./User.jsx";
+import AddOption from './AddOption.jsx';
+import Header from './Header.jsx';
+import Action from './Action.jsx';
+import Options from './Options.jsx';
+import User from './User.jsx';
+
+import OptionModal from './OptionModal.jsx';
 
 export default class IndecisionApp extends React.Component {
     constructor(props) {
       super(props);
   
       this.state = {
-        options: []
+        options: [],
+        selectedOption: undefined,
+        showModal: false
       };
 
       this.handleDeleteOptions = this.handleDeleteOptions.bind(this); 
       this.handleActionClick = this.handleActionClick.bind(this); 
       this.handleAddOption = this.handleAddOption.bind(this); 
       this.handleDeleteOption = this.handleDeleteOption.bind(this); 
+      this.handleHideModal = this.handleHideModal.bind(this); 
     }
   
     componentDidMount() {
       try{
-        var json = localStorage.getItem("options");
+        var json = localStorage.getItem('options');
         if(json) {
           const options = JSON.parse(json);
   
@@ -37,13 +42,13 @@ export default class IndecisionApp extends React.Component {
       if(prevState.options.length !== this.state.options.length) {
         const json = JSON.stringify(this.state.options);
   
-        localStorage.setItem("options", json);
+        localStorage.setItem('options', json);
       }
       
     }
   
     componentWillMount() {
-      console.log("Unmounted");
+      console.log('Unmounted');
     }
   
     handleDeleteOptions(option) {
@@ -67,7 +72,12 @@ export default class IndecisionApp extends React.Component {
     handleActionClick() {
       const randomNum = Math.floor(Math.random() * this.state.options.length);
       const option = this.state.options[randomNum];
-      alert(option);
+
+      this.setState(() => {
+        return {
+          selectedOption: option
+        }
+      });
     }
   
     handleAddOption(option) {
@@ -83,23 +93,38 @@ export default class IndecisionApp extends React.Component {
         } 
       });
     }
+
+    handleHideModal() {
+      this.setState(() => {
+        return {
+          selectedOption: undefined
+        }
+      });
+    }
+
     render() {
-      const subtitle = "Trust in a computer";
+      const subtitle = 'Trust in a computer';
       return (
       <div>
         <Header subtitle={subtitle}/>
-        <Action 
-          hasOptions={this.state.options.length > 0} 
-          handleActionClick={this.handleActionClick}
-        />
-        <Options 
-          options={this.state.options}
-          deleteOptions={this.handleDeleteOptions}
-          deleteOption={this.handleDeleteOption}
-         />
-        <AddOption 
-          addOptionHandler={this.handleAddOption}
-        />
+        <div className="container">
+          <Action 
+            hasOptions={this.state.options.length > 0} 
+            handleActionClick={this.handleActionClick}
+          />
+          <Options 
+            options={this.state.options}
+            deleteOptions={this.handleDeleteOptions}
+            deleteOption={this.handleDeleteOption}
+          />
+          <AddOption 
+            addOptionHandler={this.handleAddOption}
+          />
+          <OptionModal 
+            selectedOption={this.state.selectedOption}
+            hideModal={this.handleHideModal}
+          /> 
+        </div>
       </div>
       );
     }

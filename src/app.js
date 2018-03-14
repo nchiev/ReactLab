@@ -1,7 +1,14 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-import IndecisionApp from "./components/IndecisionApp.jsx";
-    
-ReactDOM.render(<IndecisionApp />, document.getElementById("app"));
-//Testing another push
+import IndecisionApp from'./components/IndecisionApp.jsx';
+
+import 'normalize.css/normalize.css';
+import './styles/styles.scss';
+
+ReactDOM.render(
+    (
+        <IndecisionApp></IndecisionApp>
+    )
+    , document.getElementById('app')
+);
